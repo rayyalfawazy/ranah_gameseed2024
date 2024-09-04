@@ -1433,6 +1433,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4331851168833554708, guid: 35df0f67bf34e474ba7ec063f0c25172, type: 3}
+      propertyPath: fireParticle
+      value: 
+      objectReference: {fileID: 56852242586695117, guid: 4d7e19c9fcb52be4bb9a8ba855ffe12d, type: 3}
     - target: {fileID: 4331851168833554709, guid: 35df0f67bf34e474ba7ec063f0c25172, type: 3}
       propertyPath: m_Name
       value: EnemyBarrack (1)
@@ -1595,6 +1599,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4331851168833554708, guid: 35df0f67bf34e474ba7ec063f0c25172, type: 3}
+      propertyPath: fireParticle
+      value: 
+      objectReference: {fileID: 56852242586695117, guid: 4d7e19c9fcb52be4bb9a8ba855ffe12d, type: 3}
     - target: {fileID: 4331851168833554709, guid: 35df0f67bf34e474ba7ec063f0c25172, type: 3}
       propertyPath: m_Name
       value: EnemyBarrack

@@ -10,6 +10,9 @@ public class EnemyBarrack : MonoBehaviour
     [Header("UI")]
     [SerializeField] private Slider healthBar;
 
+    [Header("VFX")]
+    [SerializeField] private ParticleSystem fireParticle;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         int damage = 0;
@@ -41,6 +44,7 @@ public class EnemyBarrack : MonoBehaviour
             if (barrackHP <= 0)
             {
                 // Logika Player Mati
+                Instantiate(fireParticle, transform.position, Quaternion.identity);
                 Destroy(gameObject);
             }
         }
