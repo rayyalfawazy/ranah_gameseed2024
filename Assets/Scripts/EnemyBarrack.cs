@@ -13,13 +13,25 @@ public class EnemyBarrack : MonoBehaviour
     [Header("VFX")]
     [SerializeField] private ParticleSystem fireParticle;
 
+    private Coroutine hideHealthBarCoroutine;
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         int damage = 0;
 
         if (other.gameObject.CompareTag("PlayerBullet"))
         {
-            damage = other.GetComponent <PlayerBullet>().bulletDamage;
+            healthBar.gameObject.SetActive(true);
+
+            // Reset timer if coroutine is already running
+            if (hideHealthBarCoroutine != null)
+            {
+                StopCoroutine(hideHealthBarCoroutine);
+            }
+
+            hideHealthBarCoroutine = StartCoroutine(HideHealthBarAfterDelay(2f));
+
+            damage = other.GetComponent<PlayerBullet>().bulletDamage;
             Destroy(other.gameObject);
         }
 
@@ -29,27 +41,32 @@ public class EnemyBarrack : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (hideHealthBarCoroutine != null && FindObjectOfType<GameplayManager>() != null)
+        {
+            StopCoroutine(hideHealthBarCoroutine);
+            FindObjectOfType<GameplayManager>().RemoveBarrack(this);
+        } 
         StopCoroutine(AnimateHealthBar(barrackHP));
-        FindObjectOfType<GameplayManager>().RemoveBarrack(this);
     }
 
     private void HandleBarrackDamage(int damage)
     {
         if (damage > 0)
         {
-            // Logika Player Diserang
+            // Logika Barrack Diserang
             barrackHP -= damage;
-            // onPlayerDamaged.Invoke();
 
             if (barrackHP <= 0)
             {
-                // Logika Player Mati
-                Instantiate(fireParticle, transform.position, Quaternion.identity);
+                // Logika Barrack Hancur
+                ParticleSystem explosion = Instantiate(fireParticle, transform.position, Quaternion.identity);
+                Destroy(explosion, 1f);
                 Destroy(gameObject);
             }
         }
     }
-        private IEnumerator AnimateHealthBar(float targetValue)
+
+    private IEnumerator AnimateHealthBar(float targetValue)
     {
         float initialValue = healthBar.value;
         float duration = 0.25f; // durasi animasi dalam detik
@@ -63,5 +80,11 @@ public class EnemyBarrack : MonoBehaviour
         }
 
         healthBar.value = targetValue; // pastikan nilai akhir tepat sama dengan target
+    }
+
+    private IEnumerator HideHealthBarAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        healthBar.gameObject.SetActive(false);
     }
 }

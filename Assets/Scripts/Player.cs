@@ -23,6 +23,12 @@ public class Player : MonoBehaviour
     private float movementX;
     private float movementY;
     private float fireTimer;
+    private bool canShoot = true;
+
+    public bool CanShoot { 
+        get { return canShoot; } 
+        set { canShoot = value; }
+    }
 
     void Start()
     {
@@ -31,7 +37,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {   
-        if (Input.GetMouseButton(0) && fireTimer <= 0f)
+        if (Input.GetMouseButton(0) && fireTimer <= 0f && canShoot)
         {
             Shoot();
             fireTimer = fireRate;

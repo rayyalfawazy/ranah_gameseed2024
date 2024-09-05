@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameplayManager : MonoBehaviour
@@ -15,19 +16,26 @@ public class GameplayManager : MonoBehaviour
     [SerializeField] private RectTransform deadPanel;
     [SerializeField] private RectTransform winPanel;
     [SerializeField] private Slider healthBar;
+    [SerializeField] private Button restartButton;
+    [SerializeField] private TMP_Text barrackCounter;
 
     public List<EnemyBarrack> barracks;
 
-    private void Awake()
-    {
-        player.onPlayerDestroyed.AddListener(HandleDeath);
-        player.onPlayerDamaged.AddListener(HandleDamage);
-    }
+    private int totalBarracks;
+    private int currentBarracks;
 
     private void Start()
     {
-        healthBar.value = player.playerHP;
+        player.onPlayerDestroyed.AddListener(HandleDeath);
+        player.onPlayerDamaged.AddListener(HandleDamage);
+        restartButton.onClick.AddListener(RestartLevel);
         BarrackInitiation();
+
+        healthBar.value = player.playerHP;
+        totalBarracks = barracks.Count;
+        currentBarracks = totalBarracks;
+
+        SetBarrackCounterText(totalBarracks, currentBarracks);
     }
 
     private void HandleDeath()
@@ -84,13 +92,40 @@ public class GameplayManager : MonoBehaviour
             {
                 HandleWin();
             }
+
+            currentBarracks = barracks.Count;
+            SetBarrackCounterText(totalBarracks, currentBarracks);
         }
+    }
+
+    private void SetBarrackCounterText(int total, int current)
+    {
+        barrackCounter.text = $"Barracks: {current}/{total}";
     }
 
     private void HandleWin()
     {
         winPanel.gameObject.SetActive(true);
+        player.transform.GetChild(0).GetComponent<PlayerHead>().enabled = false;
+        player.CanShoot = false;
+
+        // Hancurkan seluruh gameobject dengan tag "Enemy"
+        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            Destroy(enemy);
+        }
+
+        // Hancurkan seluruh gameobject dengan tag "EnemyBullet"
+        foreach (GameObject enemyBullet in GameObject.FindGameObjectsWithTag("EnemyBullet"))
+        {
+            Destroy(enemyBullet);
+        }
 
         // Lakukan aksi lain jika diperlukan, misalnya berhenti game atau memutar animasi
+    }
+
+    private void RestartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
