@@ -128,4 +128,9 @@ public class GameplayManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    public void BackToMenu()
+    {
+
+    }
 }

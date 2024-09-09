@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1875582288971044923}
   - component: {fileID: 1875582288971044922}
+  - component: {fileID: 3074213688195868283}
   m_Layer: 0
   m_Name: GameplayManager
   m_TagString: Untagged
@@ -50,4 +51,17 @@ MonoBehaviour:
   winPanel: {fileID: 0}
   healthBar: {fileID: 0}
   restartButton: {fileID: 0}
+  barrackCounter: {fileID: 0}
   barracks: []
+--- !u!114 &3074213688195868283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875582288971044921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca29f5f64ba2cd7428c75505495e3cba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
