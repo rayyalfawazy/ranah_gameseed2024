@@ -298,7 +298,6 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -623,6 +622,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   barrackHP: 100
   healthBar: {fileID: 4331851168016605594}
+  fireParticle: {fileID: 0}
 --- !u!1 &4524422011969346748
 GameObject:
   m_ObjectHideFlags: 0

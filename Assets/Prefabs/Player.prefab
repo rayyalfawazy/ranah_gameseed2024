@@ -209,6 +209,7 @@ MonoBehaviour:
       m_Calls: []
   speed: 5
   playerHP: 100
+  enemyKilled: 0
   bulletPrefabs: {fileID: 6990804282191802222, guid: aee229c7506546d42add859739d3218c, type: 3}
   firingPoint: {fileID: 490452864799188215}
   fireRate: 0.25
