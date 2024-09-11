@@ -10,7 +10,7 @@ public class MainMenuManager : MonoBehaviour
 {
     [Header("MainMenu")]
     [SerializeField] private GameObject mainMenu;
-    [SerializeField] private TMP_Text gameTitle;
+    [SerializeField] private Image gameTitle;
 
     [Header("MenuButtons")]
     [SerializeField] private Button playButton;
@@ -28,7 +28,7 @@ public class MainMenuManager : MonoBehaviour
     void Start()
     {
         TitleAnimation();
-        PlayButtonAnimation();
+       // PlayButtonAnimation();
 
         ButtonInitialize();
     }
@@ -36,7 +36,7 @@ public class MainMenuManager : MonoBehaviour
     private void TitleAnimation()
     {
         gameTitle.transform.DOScale(Vector2.one, 0.5f).SetEase(Ease.OutSine);
-        gameTitle.transform.DOMoveY(gameTitle.transform.position.y + 4f, 1f)
+        gameTitle.transform.DOMoveY(gameTitle.transform.position.y + 7f, 1.5f)
             .SetLoops(-1, LoopType.Yoyo);
     }
 
@@ -59,6 +59,7 @@ public class MainMenuManager : MonoBehaviour
     {
         levelPanel.gameObject.SetActive(true);
         EnableMainMenu(false);
+        
     }
 
     private void GoToOption()
