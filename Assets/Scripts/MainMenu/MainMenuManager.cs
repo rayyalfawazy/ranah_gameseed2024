@@ -1,9 +1,6 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Serialization;
-using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
@@ -27,24 +24,8 @@ public class MainMenuManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        TitleAnimation();
-       // PlayButtonAnimation();
-
+        Time.timeScale = 1f;
         ButtonInitialize();
-    }
-
-    private void TitleAnimation()
-    {
-        gameTitle.transform.DOScale(Vector2.one, 0.5f).SetEase(Ease.OutSine);
-        gameTitle.transform.DOMoveY(gameTitle.transform.position.y + 7f, 1.5f)
-            .SetLoops(-1, LoopType.Yoyo);
-    }
-
-    private void PlayButtonAnimation()
-    {
-        playButton.transform.DOScale(new Vector2(1.15f,1.15f), 1f)
-            .SetLoops(-1, LoopType.Yoyo)
-            .SetEase(Ease.InOutCubic);
     }
 
     private void ButtonInitialize()
@@ -58,8 +39,7 @@ public class MainMenuManager : MonoBehaviour
     private void GoToLevelMenu()
     {
         levelPanel.gameObject.SetActive(true);
-        EnableMainMenu(false);
-        
+        EnableMainMenu(false);    
     }
 
     private void GoToOption()
@@ -78,6 +58,11 @@ public class MainMenuManager : MonoBehaviour
     {
         exitPanel.gameObject.SetActive(true);
         EnableMainMenu(false);
+    }
+
+    public void GoToLevel(string levelName)
+    {
+        SceneManager.LoadScene(levelName);
     }
 
     public void EnableMainMenu(bool enabled)
