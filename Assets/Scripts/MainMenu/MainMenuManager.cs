@@ -1,5 +1,6 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -21,11 +22,17 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] private Transform creditPanel;
     [SerializeField] private Transform exitPanel;
 
+    [Header("VolumeSlider")]
+    [SerializeField] private Slider bgmSlider;
+    [SerializeField] private Slider sfxSlider;
+    [SerializeField] private AudioMixer mixer;
+
     // Start is called before the first frame update
     void Start()
     {
         Time.timeScale = 1f;
         ButtonInitialize();
+        VolumeInitialize();
     }
 
     private void ButtonInitialize()
@@ -34,12 +41,29 @@ public class MainMenuManager : MonoBehaviour
         optionButton.onClick.AddListener(GoToOption);
         creditButton.onClick.AddListener(GoToCredit);
         exitButton.onClick.AddListener(GoToExit);
+        bgmSlider.onValueChanged.AddListener(SetBGMVolume);
+        sfxSlider.onValueChanged.AddListener(SetSFXVolume);
+    }
+
+    private void VolumeInitialize()
+    {
+        float bgmPrefs = PlayerPrefs.GetFloat("BGM_Volume");
+        float sfxPrefs = PlayerPrefs.GetFloat("SFX_Volume");
+        if (bgmPrefs == 0)
+        {
+            bgmSlider.value = 1;
+            sfxSlider.value = 1;
+        } else
+        {
+            bgmSlider.value = bgmPrefs;
+            sfxSlider.value = sfxPrefs;
+        }
     }
 
     private void GoToLevelMenu()
     {
         levelPanel.gameObject.SetActive(true);
-        EnableMainMenu(false);    
+        EnableMainMenu(false);
     }
 
     private void GoToOption()
@@ -58,6 +82,32 @@ public class MainMenuManager : MonoBehaviour
     {
         exitPanel.gameObject.SetActive(true);
         EnableMainMenu(false);
+    }
+
+    private void SetBGMVolume(float value)
+    {
+        float BGMVolume = Mathf.Log10(value) * 20;
+        mixer.SetFloat("BGM", BGMVolume);
+
+        if (BGMVolume == -40)
+        {
+            mixer.SetFloat("BGM", -80f);
+        }
+
+        PlayerPrefs.SetFloat("BGM_Volume",value);
+    }
+
+    private void SetSFXVolume(float value)
+    {
+        float SFXVolume = Mathf.Log10(value) * 20;
+        mixer.SetFloat("SFX", SFXVolume);
+
+        if (SFXVolume == -40)
+        {
+            mixer.SetFloat("SFX", -80f);
+        }
+
+        PlayerPrefs.SetFloat("SFX_Volume", value);
     }
 
     public void GoToLevel(string levelName)
