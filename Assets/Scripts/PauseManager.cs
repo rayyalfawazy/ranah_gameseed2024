@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PauseManager : MonoBehaviour
 {
-    private bool isPaused = false;
+    public bool isPaused = false;
 
     [Header("UI")]
     [SerializeField] private Transform pausePanel; 

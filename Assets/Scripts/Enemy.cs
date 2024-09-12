@@ -29,6 +29,7 @@ public class Enemy : MonoBehaviour
 
         col.enabled = false;
         StartCoroutine(EnableColliderAfterDelay(0.75f));
+        Destroy(gameObject, 7.5f);
     }
 
     private IEnumerator EnableColliderAfterDelay(float delay)

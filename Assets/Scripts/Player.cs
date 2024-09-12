@@ -5,8 +5,8 @@ using UnityEngine.Events;
 public class Player : MonoBehaviour
 {
     [Header("Events")]
-    public UnityEvent onPlayerDestroyed;
-    public UnityEvent onPlayerDamaged;
+    [HideInInspector] public UnityEvent onPlayerDestroyed;
+    [HideInInspector] public UnityEvent onPlayerDamaged;
 
     [Header("PlayerConfig")]
     public float speed = 5f;
@@ -18,6 +18,10 @@ public class Player : MonoBehaviour
     public Transform firingPoint;
     [Range(0.1f, 2f)] 
     public float fireRate;
+
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip gunSound;
 
     private Rigidbody2D rb;
     private float movementX;
@@ -58,6 +62,8 @@ public class Player : MonoBehaviour
     private void Shoot()
     {
         Instantiate(bulletPrefabs, firingPoint.position, firingPoint.rotation);
+        audioSource.clip = gunSound;
+        audioSource.Play();
     }
 
     private void OnDestroy()

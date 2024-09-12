@@ -1,3 +1,4 @@
+using RRR;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -8,7 +9,10 @@ using UnityEngine.UI;
 
 public class GameplayManager : MonoBehaviour
 {
+    private PauseManager pauseManager;
+
     [Header("Gameplay")]
+    public RRR_TutorialManager tutorialManager;
     public Player player;
     public bool isPlayerDead;
 
@@ -26,6 +30,8 @@ public class GameplayManager : MonoBehaviour
 
     private void Start()
     {
+        pauseManager = GetComponent<PauseManager>();
+
         player.onPlayerDestroyed.AddListener(HandleDeath);
         player.onPlayerDamaged.AddListener(HandleDamage);
         restartButton.onClick.AddListener(RestartLevel);
@@ -36,13 +42,24 @@ public class GameplayManager : MonoBehaviour
         currentBarracks = totalBarracks;
 
         SetBarrackCounterText(totalBarracks, currentBarracks);
+        Tutorial();
     }
 
     private void HandleDeath()
     {
+        pauseManager.isPaused = true;
         isPlayerDead = true;
         deadPanel.gameObject.SetActive(true);
         StopAllCoroutines();
+    }
+
+    private void Tutorial()
+    {
+        if (tutorialManager != null)
+        {
+            tutorialManager.StartTutorial();
+            player.CanShoot = false;
+        }
     }
 
     private void HandleDamage()
@@ -105,23 +122,10 @@ public class GameplayManager : MonoBehaviour
 
     private void HandleWin()
     {
+        pauseManager.isPaused = true;
         winPanel.gameObject.SetActive(true);
         player.transform.GetChild(0).GetComponent<PlayerHead>().enabled = false;
         player.CanShoot = false;
-
-        // Hancurkan seluruh gameobject dengan tag "Enemy"
-        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
-        {
-            Destroy(enemy);
-        }
-
-        // Hancurkan seluruh gameobject dengan tag "EnemyBullet"
-        foreach (GameObject enemyBullet in GameObject.FindGameObjectsWithTag("EnemyBullet"))
-        {
-            Destroy(enemyBullet);
-        }
-
-        // Lakukan aksi lain jika diperlukan, misalnya berhenti game atau memutar animasi
     }
 
     private void RestartLevel()
