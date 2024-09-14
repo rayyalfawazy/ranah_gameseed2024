@@ -36,13 +36,11 @@ public class GameplayManager : MonoBehaviour
         healthBar.value = player.playerHP;
         totalBarracks = barracks.Count;
         currentBarracks = totalBarracks;
-
         SetBarrackCounterText(totalBarracks, currentBarracks);
     }
 
     private void HandleDeath()
     {
-        pauseManager.isPaused = true;
         isPlayerDead = true;
         deadPanel.gameObject.SetActive(true);
         StopAllCoroutines();
@@ -108,7 +106,7 @@ public class GameplayManager : MonoBehaviour
 
     private void HandleWin()
     {
-        pauseManager.isPaused = true;
+        Destroy(GameObject.FindGameObjectWithTag("Enemy"));
         winPanel.gameObject.SetActive(true);
         player.transform.GetChild(0).GetComponent<PlayerHead>().enabled = false;
         player.CanShoot = false;
@@ -117,11 +115,6 @@ public class GameplayManager : MonoBehaviour
     public void GoToLevel(string levelName)
     {
         SceneManager.LoadScene(levelName);
-    }
-
-    private void RestartLevel()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void BackToMenu()
