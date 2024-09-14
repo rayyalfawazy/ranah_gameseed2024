@@ -22,8 +22,9 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
-        distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
-        Debug.DrawLine(transform.position, playerTransform.position,Color.red);
+        if (playerTransform != null) {
+            distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
+        }
     }
 
     private IEnumerator CheckDistanceToPlayer()
